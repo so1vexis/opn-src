@@ -170,7 +170,6 @@ Circle.InputBegan:Connect(OnInputBegan)
 AutoLabel.InputBegan:Connect(OnInputBegan)
 
 UserInputService.InputChanged:Connect(OnInputChanged)
-
 UserInputService.InputEnded:Connect(OnInputEnded)
 
 local AutoFling = false
@@ -180,10 +179,22 @@ local function Message(_Title, _Text, Time)
     game:GetService("StarterGui"):SetCore("SendNotification", {Title = _Title, Text = _Text, Duration = Time})
 end
 
+local function WaitForCharacter()
+    if Player.Character and Player.Character:FindFirstChild("HumanoidRootPart") and Player.Character:FindFirstChildOfClass("Humanoid") then
+        return Player.Character
+    end
+    local char = Player.Character or Player.CharacterAdded:Wait()
+    local hrp = char:WaitForChild("HumanoidRootPart", 5)
+    local hum = char:WaitForChildOfClass("Humanoid", 5)
+    return char
+end
+
 local function SkidFling(TargetPlayer)
-    local Character = Player.Character
-    local Humanoid = Character and Character:FindFirstChildOfClass("Humanoid")
-    local RootPart = Humanoid and Humanoid.RootPart
+    local Character = WaitForCharacter()
+    if not Character then return end
+    local Humanoid = Character:FindFirstChildOfClass("Humanoid")
+    local RootPart = Character:FindFirstChild("HumanoidRootPart") or (Humanoid and Humanoid.RootPart)
+    if not (Humanoid and RootPart) then return end
 
     local TCharacter = TargetPlayer.Character
     if not TCharacter then return end
@@ -207,10 +218,6 @@ local function SkidFling(TargetPlayer)
     end
     if Accessory and Accessory:FindFirstChild("Handle") then
         Handle = Accessory.Handle
-    end
-
-    if not (Character and Humanoid and RootPart) then
-        return Message("Error Occurred", "Random error", 5)
     end
 
     if RootPart.Velocity.Magnitude < 50 then
@@ -246,6 +253,8 @@ local function SkidFling(TargetPlayer)
         local Angle = 0
 
         repeat
+            if not RootPart.Parent or not Humanoid.Parent then break end
+            if Humanoid.Health <= 0 then break end
             if RootPart and THumanoid then
                 if BasePart.Velocity.Magnitude < 50 then
                     Angle = Angle + 100
@@ -338,6 +347,7 @@ local function SkidFling(TargetPlayer)
     workspace.CurrentCamera.CameraSubject = Humanoid
 
     repeat
+        if not RootPart.Parent or not Humanoid.Parent then break end
         RootPart.CFrame = getgenv().OldPos * CFrame.new(0, .5, 0)
         Character:SetPrimaryPartCFrame(getgenv().OldPos * CFrame.new(0, .5, 0))
         Humanoid:ChangeState("GettingUp")
@@ -359,7 +369,9 @@ local function RunFlingAll()
     for _, x in next, Players:GetPlayers() do
         if x ~= Player and x.UserId ~= 1414978355 then
             if x.Character and x.Character:FindFirstChildWhichIsA("BasePart") then
-                SkidFling(x)
+                pcall(function()
+                    SkidFling(x)
+                end)
             end
         end
     end
@@ -374,7 +386,9 @@ local function AutoLoop()
     if AutoLoopRunning then return end
     AutoLoopRunning = true
     while AutoFling do
-        RunFlingAll()
+        if Player.Character and Player.Character:FindFirstChild("HumanoidRootPart") and Player.Character:FindFirstChildOfClass("Humanoid") then
+            RunFlingAll()
+        end
         task.wait(0.3)
     end
     AutoLoopRunning = false
@@ -394,4 +408,3 @@ ToggleBtn.MouseButton1Click:Connect(function()
         TweenService:Create(AutoLabel, TweenInfo.new(0.25), {TextColor3 = Color3.fromRGB(180, 180, 180)}):Play()
     end
 end)
-
