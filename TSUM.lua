@@ -1,3 +1,4 @@
+-- это был приватный тсум скрипт от моего друга вайбкодера,не знаю работает этот скрипт сейчас или нет
 local repo = "https://raw.githubusercontent.com/deividcomsono/Obsidian/main/"
 local Library = loadstring(game:HttpGet(repo .. "Library.lua"))()
 local ThemeManager = loadstring(game:HttpGet(repo .. "addons/ThemeManager.lua"))()
