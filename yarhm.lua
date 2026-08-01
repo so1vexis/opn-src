@@ -1,5 +1,3 @@
--- Yet Another Random Hub Menu 1.21 by Aetherion
-
 if not game:IsLoaded() then
 	game:GetService("StarterGui"):SetCore("SendNotification", {
 		Title = "Script loading",
