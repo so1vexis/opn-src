@@ -1,5 +1,3 @@
--- ts file was generated at discord.gg/25ms
-
 if _G.EmotesGUIRunning then
     getgenv().Notify({
         Title = '7yd7 | Emote',
