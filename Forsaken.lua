@@ -1,5 +1,3 @@
--- ts file was generated at discord.gg/25ms
-
 local t1 = {}
 local v2 = unpack or table.unpack
 local RunService = game:GetService('RunService')
