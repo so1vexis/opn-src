@@ -1,4 +1,3 @@
--- ts file was generated at discord.gg/25ms
 
 repeat
     task.wait()
