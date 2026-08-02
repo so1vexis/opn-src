@@ -1,5 +1,3 @@
--- ts file was generated at discord.gg/25ms
-
 getgenv().ScriptCleanup = getgenv().ScriptCleanup or function() end
 getgenv().npcState = getgenv().npcState or {}
 
