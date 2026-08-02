@@ -1,0 +1,499 @@
+-- ts file was generated at discord.gg/25ms
+
+getgenv().ScriptCleanup = getgenv().ScriptCleanup or function() end
+getgenv().npcState = getgenv().npcState or {}
+
+if getgenv().AimConnection then
+    getgenv().AimConnection:Disconnect()
+
+    getgenv().AimConnection = nil
+end
+
+getgenv().ScriptCleanup()
+
+local Players = game:GetService('Players')
+local UserInputService = game:GetService('UserInputService')
+local u3 = false
+local inputPosition
+local Frame2Position
+local RunService = game:GetService('RunService')
+local LocalPlayer = Players.LocalPlayer
+local CurrentCamera = workspace.CurrentCamera
+
+getgenv().npcState = getgenv().npcState or {}
+
+local npcState = getgenv().npcState
+local v10 = UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled
+local v11 = not v10 and 1.15 or 0.7
+local v12 = not v10 and 40 or 60
+local v13 = v10 and -20
+local u14 = false
+local u15 = false
+local n1 = 150
+local ScreenGui = Instance.new('ScreenGui')
+
+ScreenGui.Name = 'BluePanelUI'
+ScreenGui.ResetOnSpawn = false
+ScreenGui.IgnoreGuiInset = true
+ScreenGui.ScreenInsets = Enum.ScreenInsets.None
+ScreenGui.Parent = LocalPlayer:WaitForChild('PlayerGui')
+
+local ScreenGui2 = Instance.new('ScreenGui')
+
+ScreenGui2.Name = 'IntroOverlay'
+ScreenGui2.ResetOnSpawn = false
+ScreenGui2.Parent = LocalPlayer:WaitForChild('PlayerGui')
+ScreenGui2.IgnoreGuiInset = true
+
+local Frame = Instance.new('Frame')
+
+Frame.Size = UDim2.new(1, 0, 1, 0)
+Frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Frame.BackgroundTransparency = 0.4
+Frame.BorderSizePixel = 0
+Frame.ZIndex = 2
+Frame.Parent = ScreenGui2
+
+local TextLabel = Instance.new('TextLabel')
+
+TextLabel.Size = UDim2.new(0, 250, 0, 80)
+TextLabel.AnchorPoint = Vector2.new(0, 0.5)
+TextLabel.Position = UDim2.new(0, v12 + v13, 0.68, -20)
+TextLabel.BackgroundTransparency = 1
+TextLabel.Text = 'Click To Open/Close Menu'
+TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel.Font = Enum.Font.GothamBold
+TextLabel.TextSize = 16
+TextLabel.TextScaled = false
+TextLabel.TextWrapped = true
+TextLabel.ZIndex = 3
+TextLabel.Parent = Frame
+
+task.delay(3, function()
+    local TweenService = game:GetService('TweenService')
+    local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+    local tween = TweenService:Create(Frame, tweenInfo, {BackgroundTransparency = 1})
+    local tween2 = TweenService:Create(TextLabel, tweenInfo, {TextTransparency = 1})
+
+    tween:Play()
+    tween2:Play()
+    tween2.Completed:Wait()
+    ScreenGui2:Destroy()
+end)
+
+local Frame2 = Instance.new('Frame')
+
+Frame2.Size = UDim2.new(0, 320 * v11, 0, 320 * v11)
+Frame2.Position = UDim2.new(0.5, -(160 * v11), 0.5, -(160 * v11))
+Frame2.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+Frame2.BorderSizePixel = 0
+Frame2.Parent = ScreenGui
+
+Frame2.InputBegan:Connect(function(input)
+    local v50 = input.UserInputType == Enum.UserInputType.MouseButton1
+
+    if not v50 then
+        v50 = input.UserInputType == Enum.UserInputType.Touch
+    end
+    if v50 then
+        u3 = true
+        inputPosition = input.Position
+        Frame2Position = Frame2.Position
+
+        input:CaptureFocus()
+    end
+end)
+UserInputService.InputEnded:Connect(function(input)
+    local v52 = input.UserInputType == Enum.UserInputType.MouseButton1
+
+    if not v52 then
+        v52 = input.UserInputType == Enum.UserInputType.Touch
+    end
+    if v52 then
+        u3 = false
+    end
+end)
+UserInputService.InputChanged:Connect(function(input)
+    local v54 = u3
+
+    if v54 then
+        v54 = input.UserInputType == Enum.UserInputType.MouseMovement
+
+        if not v54 then
+            v54 = input.UserInputType == Enum.UserInputType.Touch
+        end
+    end
+    if v54 then
+        local v55 = input.Position - inputPosition
+
+        Frame2.Position = UDim2.new(Frame2Position.X.Scale, Frame2Position.X.Offset + v55.X, Frame2Position.Y.Scale, Frame2Position.Y.Offset + v55.Y)
+    end
+end)
+
+Instance.new('UICorner', Frame2).CornerRadius = UDim.new(0, 12)
+
+Frame2.InputBegan:Connect(function(input)
+    local v57 = input.UserInputType == Enum.UserInputType.MouseButton1
+
+    if not v57 then
+        v57 = input.UserInputType == Enum.UserInputType.Touch
+    end
+    if v57 then
+        u3 = true
+        inputPosition = input.Position
+        Frame2Position = Frame2.Position
+
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                u3 = false
+            end
+        end)
+    end
+end)
+UserInputService.InputChanged:Connect(function(input)
+    local v59 = u3
+
+    if v59 then
+        v59 = input.UserInputType == Enum.UserInputType.MouseMovement
+
+        if not v59 then
+            v59 = input.UserInputType == Enum.UserInputType.Touch
+        end
+    end
+    if v59 then
+        local v60 = input.Position - inputPosition
+
+        Frame2.Position = UDim2.new(Frame2Position.X.Scale, Frame2Position.X.Offset + v60.X, Frame2Position.Y.Scale, Frame2Position.Y.Offset + v60.Y)
+    end
+end)
+
+Instance.new('UICorner', Frame2).CornerRadius = UDim.new(0, 12)
+
+local Frame3 = Instance.new('Frame')
+
+Frame3.Size = UDim2.new(1, -6, 1, -6)
+Frame3.Position = UDim2.new(0, 3, 0, 3)
+Frame3.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+Frame3.BorderSizePixel = 0
+Frame3.Parent = Frame2
+Instance.new('UICorner', Frame3).CornerRadius = UDim.new(0, 10)
+
+local TextLabel2 = Instance.new('TextLabel')
+
+TextLabel2.Size = UDim2.new(1, 0, 0, 35 * v11)
+TextLabel2.BackgroundTransparency = 1
+TextLabel2.Text = '[ Initialized ]'
+TextLabel2.TextColor3 = Color3.fromRGB(0, 170, 255)
+TextLabel2.Font = Enum.Font.GothamBold
+TextLabel2.TextSize = 20 * v11
+TextLabel2.Parent = Frame3
+
+local ScreenGui3 = Instance.new('ScreenGui')
+
+ScreenGui3.Name = 'FOV_UI'
+ScreenGui3.ResetOnSpawn = false
+ScreenGui3.Parent = LocalPlayer:WaitForChild('PlayerGui')
+
+local Frame4 = Instance.new('Frame')
+
+Frame4.AnchorPoint = Vector2.new(0.5, 0.5)
+Frame4.Position = UDim2.new(0.5, 0, 0.5, 0)
+Frame4.BackgroundTransparency = 1
+Frame4.Size = UDim2.new(0, n1 * 2, 0, n1 * 2)
+Frame4.Parent = ScreenGui3
+ScreenGui3.IgnoreGuiInset = true
+
+local UICorner = Instance.new('UICorner')
+
+UICorner.CornerRadius = UDim.new(1, 0)
+UICorner.Parent = Frame4
+
+local UIStroke = Instance.new('UIStroke')
+
+UIStroke.Thickness = 2
+UIStroke.Color = Color3.fromRGB(0, 170, 255)
+UIStroke.Transparency = 0.2
+UIStroke.Parent = Frame4
+ScreenGui3.Enabled = true
+Frame4.Visible = false
+
+local function v28(p1)
+    if p1:FindFirstChildWhichIsA('Tool') then
+        return Color3.fromRGB(255, 0, 0)
+    end
+
+    return Color3.fromRGB(255, 255, 255)
+end
+local function u29(p2)
+    local Highlight = p2:FindFirstChild('Highlight')
+
+    if not Highlight then
+        Highlight = Instance.new('Highlight')
+        Highlight.Name = 'Highlight'
+        Highlight.Adornee = p2
+        Highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+        Highlight.Parent = p2
+    end
+
+    return Highlight
+end
+local function v30(p3)
+    if p3.Name ~= 'NPC' then
+        return
+    end
+
+    local v65 = u29(p3)
+    local v66 = npcState[p3] or 'normal'
+
+    if v66 == 'prompt' then
+        v65.FillColor = Color3.fromRGB(128, 0, 255)
+        v65.OutlineColor = v65.FillColor
+
+        return
+    end
+    if v66 == 'marked' then
+        v65.FillColor = Color3.fromRGB(0, 0, 0)
+        v65.OutlineColor = v65.FillColor
+
+        return
+    end
+
+    v65.FillColor = v28(p3)
+    v65.OutlineColor = v65.FillColor
+end
+
+for _, child in ipairs(workspace:GetChildren())do
+    if child.Name == 'NPC' then
+        (function(p4)
+            local UpperTorso = p4:FindFirstChild('UpperTorso')
+
+            if not UpperTorso then
+                return
+            end
+
+            npcState[p4] = npcState[p4] or 'normal'
+
+            UpperTorso.ChildAdded:Connect(function(child2)
+                if child2:IsA('ProximityPrompt') then
+                    npcState[p4] = 'prompt'
+
+                    v30(p4)
+                end
+            end)
+            UpperTorso.ChildRemoved:Connect(function(child3)
+                if child3:IsA('ProximityPrompt') then
+                    npcState[p4] = 'marked'
+
+                    v30(p4)
+                end
+            end)
+        end)(child)
+
+        if u14 then
+            v30(child)
+        end
+    end
+end
+
+local function v33(p5)
+    local v70, v71 = CurrentCamera:WorldToViewportPoint(p5)
+
+    if not v71 then
+        return (1/0)
+    end
+
+    local vector2 = Vector2.new(CurrentCamera.ViewportSize.X / 2, CurrentCamera.ViewportSize.Y / 2)
+
+    return (Vector2.new(v70.X, v70.Y) - vector2).Magnitude
+end
+local function u34(p6)
+    local CFramePosition = CurrentCamera.CFrame.Position
+    local v86 = p6.Position - CFramePosition
+    local raycastParams = RaycastParams.new()
+
+    raycastParams.FilterType = Enum.RaycastFilterType.Blacklist
+
+    local Character = LocalPlayer.Character
+
+    if not Character then
+        Character = LocalPlayer.CharacterAdded:Wait()
+    end
+
+    raycastParams.FilterDescendantsInstances = {Character}
+
+    local raycastResult = workspace:Raycast(CFramePosition, v86, raycastParams)
+
+    if not raycastResult then
+        return true
+    end
+
+    return raycastResult.Instance:IsDescendantOf(p6.Parent)
+end
+local function v35()
+    local v77
+    local v78 = n1
+
+    for _, child in ipairs(workspace:GetChildren())do
+        local v81 = child.Name == 'NPC'
+
+        if v81 then
+            v81 = child:FindFirstChild('Head')
+        end
+        if v81 and child:FindFirstChildWhichIsA('Tool') then
+            local v82 = v33(child.Head.Position)
+            local v83 = v82 < v78
+
+            if v83 then
+                v83 = u34(child.Head)
+            end
+            if v83 then
+                v77 = child
+                v78 = v82
+            end
+        end
+    end
+
+    return v77
+end
+local function v36(p7, p8)
+    if not p7 then
+        return
+    end
+
+    local Head = p7:FindFirstChild('Head')
+
+    if not Head then
+        return
+    end
+
+    local cFrame = CFrame.lookAt(CurrentCamera.CFrame.Position, Head.Position)
+
+    CurrentCamera.CFrame = CurrentCamera.CFrame:Lerp(cFrame, p8)
+end
+
+local connection = RunService.RenderStepped:Connect(function()
+    if u15 then
+        local v90 = v35()
+
+        if v90 then
+            local v91 = tonumber(getgenv().AS) or 0.2
+
+            v36(v90, v91)
+        end
+    end
+end)
+
+getgenv().AimConnection = connection
+
+local n2 = 0
+
+local function v39(p9, p10)
+    n2 += 1
+
+    local TextButton = Instance.new('TextButton')
+
+    TextButton.Size = UDim2.new(1, -20, 0, 40 * v11)
+    TextButton.Position = UDim2.new(0, 10, 0, 45 + (n2 - 1) * (45 * v11))
+    TextButton.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+    TextButton.Text = p9
+    TextButton.Font = Enum.Font.GothamBlack
+    TextButton.TextColor3 = Color3.new(1, 1, 1)
+    TextButton.Font = Enum.Font.GothamBold
+    TextButton.TextSize = 16 * v11
+    TextButton.BorderSizePixel = 0
+    TextButton.Parent = Frame3
+    Instance.new('UICorner', TextButton).CornerRadius = UDim.new(0, 8)
+
+    TextButton.MouseButton1Click:Connect(p10)
+
+    return TextButton
+end
+
+local u40
+
+u40 = v39('ESP = OFF', function()
+    u14 = not u14
+    u40.Text = not u14 and 'ESP = OFF' or 'ESP = ON'
+
+    for _, child in ipairs(workspace:GetChildren())do
+        if child.Name == 'NPC' then
+            local Highlight = child:FindFirstChild('Highlight')
+
+            if u14 then
+                v30(child)
+            elseif Highlight then
+                Highlight:Destroy()
+            end
+        end
+    end
+end)
+
+local u41
+
+u41 = v39('AIM = OFF', function()
+    u15 = not u15
+    u41.Text = not u15 and 'AIM = OFF' or 'AIM = ON'
+    Frame4.Visible = u15
+end)
+
+local TextBox = Instance.new('TextBox')
+
+TextBox.Size = UDim2.new(1, -20, 0, 40 * v11)
+TextBox.Position = UDim2.new(0, 10, 0, 145)
+TextBox.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+TextBox.TextColor3 = Color3.new(1, 1, 1)
+TextBox.Text = 'FOV: 150'
+TextBox.Font = Enum.Font.GothamBold
+TextBox.Parent = Frame3
+Instance.new('UICorner', TextBox).CornerRadius = UDim.new(0, 8)
+
+TextBox.FocusLost:Connect(function()
+    local num = tonumber(TextBox.Text)
+
+    if num then
+        n1 = math.clamp(num, 50, 500)
+    end
+
+    TextBox.Text = 'FOV: ' .. n1
+    Frame4.Size = UDim2.new(0, n1 * 2, 0, n1 * 2)
+end)
+
+local TextButton = Instance.new('TextButton')
+
+TextButton.Size = UDim2.new(0, 70 * v11, 0, 70 * v11)
+TextButton.AnchorPoint = Vector2.new(0, 0.5)
+TextButton.Position = UDim2.new(0, v12, 0.68, -20)
+TextButton.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+TextButton.Text = '\u{2261}'
+TextButton.Font = Enum.Font.GothamBold
+TextButton.ZIndex = 10
+TextButton.Parent = ScreenGui
+Instance.new('UICorner', TextButton).CornerRadius = UDim.new(1, 0)
+
+local u44 = true
+
+TextButton.MouseButton1Click:Connect(function()
+    u44 = not u44
+    Frame2.Visible = u44
+end)
+
+getgenv().ScriptCleanup = function()
+    local PlayerGui = game.Players.LocalPlayer.PlayerGui
+
+    if PlayerGui:FindFirstChild('BluePanelUI') then
+        PlayerGui.BluePanelUI:Destroy()
+    end
+    if PlayerGui:FindFirstChild('FOV_UI') then
+        PlayerGui.FOV_UI:Destroy()
+    end
+
+    for _, child in ipairs(workspace:GetChildren())do
+        if child.Name == 'NPC' then
+            local Highlight = child:FindFirstChild('Highlight')
+
+            if Highlight then
+                Highlight:Destroy()
+            end
+        end
+    end
+end
