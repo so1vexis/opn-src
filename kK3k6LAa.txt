@@ -1,0 +1,460 @@
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local TweenService = game:GetService("TweenService")
+local Workspace = game:GetService("Workspace")
+
+local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
+
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "UltraInstinctGui"
+screenGui.ResetOnSpawn = false
+screenGui.Parent = PlayerGui
+
+local frame = Instance.new("Frame")
+frame.Name = "MainFrame"
+frame.Size = UDim2.new(0, 420, 0, 136)
+frame.AnchorPoint = Vector2.new(1, 0)
+frame.Position = UDim2.new(1, -20, 0.12, 0)
+frame.BackgroundColor3 = Color3.fromRGB(200, 200, 200)
+frame.BackgroundTransparency = 0
+frame.BorderSizePixel = 0
+frame.Parent = screenGui
+
+local uic = Instance.new("UICorner"); uic.CornerRadius = UDim.new(0, 12); uic.Parent = frame
+local outline = Instance.new("UIStroke"); outline.Thickness = 2; outline.Color = Color3.fromRGB(220,30,30); outline.Parent = frame
+
+local title = Instance.new("TextLabel")
+title.Name = "Title"
+title.Size = UDim2.new(1, -220, 0, 36)
+title.Position = UDim2.new(0, 12, 0, 0)
+title.BackgroundTransparency = 1
+title.Text = "Ultra instinct"
+title.Font = Enum.Font.SourceSansBold
+title.TextSize = 18
+title.TextColor3 = Color3.fromRGB(20,20,20)
+title.TextXAlignment = Enum.TextXAlignment.Left
+title.TextYAlignment = Enum.TextYAlignment.Center
+title.Parent = frame
+
+local minimizeBtn = Instance.new("TextButton")
+minimizeBtn.Name = "MinimizeButton"
+minimizeBtn.Size = UDim2.new(0, 28, 0, 28)
+minimizeBtn.Position = UDim2.new(1, -68, 0, 4)
+minimizeBtn.AnchorPoint = Vector2.new(0, 0)
+minimizeBtn.BackgroundColor3 = Color3.fromRGB(120,120,120)
+minimizeBtn.Text = "—"
+minimizeBtn.Font = Enum.Font.SourceSansBold
+minimizeBtn.TextSize = 18
+minimizeBtn.TextColor3 = Color3.fromRGB(255,255,255)
+minimizeBtn.Parent = frame
+local minCorner = Instance.new("UICorner"); minCorner.CornerRadius = UDim.new(0,6); minCorner.Parent = minimizeBtn
+
+local closeBtn = Instance.new("TextButton")
+closeBtn.Name = "CloseButton"
+closeBtn.Size = UDim2.new(0, 28, 0, 28)
+closeBtn.Position = UDim2.new(1, -36, 0, 4)
+closeBtn.AnchorPoint = Vector2.new(0, 0)
+closeBtn.BackgroundColor3 = Color3.fromRGB(160, 40, 40)
+closeBtn.Text = "X"
+closeBtn.Font = Enum.Font.SourceSansBold
+closeBtn.TextSize = 18
+closeBtn.TextColor3 = Color3.fromRGB(255,255,255)
+closeBtn.Parent = frame
+local closeCorner = Instance.new("UICorner"); closeCorner.CornerRadius = UDim.new(0,6); closeCorner.Parent = closeBtn
+
+local rangeBox = Instance.new("TextBox")
+rangeBox.Name = "RangeBox"
+rangeBox.PlaceholderText = "Enter Range"
+rangeBox.ClearTextOnFocus = false
+rangeBox.Size = UDim2.new(1, -20, 0, 36)
+rangeBox.Position = UDim2.new(0, 10, 0, 46)
+rangeBox.BackgroundColor3 = Color3.fromRGB(245,245,245)
+rangeBox.Text = ""
+rangeBox.TextColor3 = Color3.fromRGB(20,20,20)
+rangeBox.Font = Enum.Font.SourceSans
+rangeBox.TextSize = 16
+rangeBox.Parent = frame
+local boxCorner = Instance.new("UICorner"); boxCorner.CornerRadius = UDim.new(0,8); boxCorner.Parent = rangeBox
+
+local startBtn = Instance.new("TextButton")
+startBtn.Name = "StartButton"
+startBtn.Size = UDim2.new(0, 140, 0, 36)
+startBtn.Position = UDim2.new(0, 30, 0, 90)
+startBtn.BackgroundColor3 = Color3.fromRGB(200,40,40)
+startBtn.Text = "Start"
+startBtn.Font = Enum.Font.SourceSansBold
+startBtn.TextSize = 16
+startBtn.TextColor3 = Color3.fromRGB(255,255,255)
+startBtn.Parent = frame
+local btnCorner = Instance.new("UICorner"); btnCorner.CornerRadius = UDim.new(0,8); btnCorner.Parent = startBtn
+
+local soundToggleBtn = Instance.new("TextButton")
+soundToggleBtn.Name = "SoundToggleButton"
+soundToggleBtn.Size = UDim2.new(0, 180, 0, 36)
+soundToggleBtn.Position = UDim2.new(0, 200, 0, 90)
+soundToggleBtn.BackgroundColor3 = Color3.fromRGB(40,160,60)
+soundToggleBtn.Text = "Sounds: On"
+soundToggleBtn.Font = Enum.Font.SourceSansBold
+soundToggleBtn.TextSize = 14
+soundToggleBtn.TextColor3 = Color3.fromRGB(255,255,255)
+soundToggleBtn.Parent = frame
+local soundCorner = Instance.new("UICorner"); soundCorner.CornerRadius = UDim.new(0,8); soundCorner.Parent = soundToggleBtn
+
+title.TextTransparency = 1
+rangeBox.Visible = false
+startBtn.Visible = false
+soundToggleBtn.Visible = false
+closeBtn.Visible = false
+minimizeBtn.Visible = false
+
+frame.Size = UDim2.new(0, 12, 0, 6)
+frame.Position = UDim2.new(1, -20, 0.04, 0)
+frame.BackgroundTransparency = 1
+
+task.delay(0.01, function()
+	TweenService:Create(frame, TweenInfo.new(0.28, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+		Size = UDim2.new(0,420,0,136),
+		BackgroundTransparency = 0,
+		Position = UDim2.new(1, -20, 0.12, 0)
+	}):Play()
+	TweenService:Create(title, TweenInfo.new(0.28), {TextTransparency = 0}):Play()
+	task.delay(0.11, function()
+		rangeBox.Visible = true
+		startBtn.Visible = true
+		soundToggleBtn.Visible = true
+		closeBtn.Visible = true
+		minimizeBtn.Visible = true
+		rangeBox.BackgroundTransparency = 1
+		startBtn.BackgroundTransparency = 1
+		soundToggleBtn.BackgroundTransparency = 1
+		TweenService:Create(rangeBox, TweenInfo.new(0.20), {BackgroundTransparency = 0}):Play()
+		TweenService:Create(startBtn, TweenInfo.new(0.20), {BackgroundTransparency = 0}):Play()
+		TweenService:Create(soundToggleBtn, TweenInfo.new(0.20), {BackgroundTransparency = 0}):Play()
+		TweenService:Create(closeBtn, TweenInfo.new(0.18), {BackgroundColor3 = Color3.fromRGB(160,40,40)}):Play()
+		TweenService:Create(minimizeBtn, TweenInfo.new(0.18), {BackgroundColor3 = Color3.fromRGB(120,120,120)}):Play()
+	end)
+end)
+
+local ringModel = nil
+local ringRadius = 0
+local segments = 72
+local segmentThickness = 1.0
+local segmentHeight = 0.06
+local segmentParts = {}
+local updateConn = nil
+local highlightMap = {}
+local isActive = false
+local lastRadius = nil
+
+local avoidOffsetExtra = 3
+local teleportCooldown = 0.001
+local perPlayerCooldown = 0.001
+local _lastTeleportTime = 0
+local playerLastTeleported = {}
+
+local teleportSoundIDs = {
+	"rbxassetid://87566211283329",
+	"rbxassetid://81857580097150",
+	"rbxassetid://129561737395908",
+	"rbxassetid://122312400582724",
+	"rbxassetid://136080815136211"
+}
+local soundPlayOrder = {1,2,3,1,2,4,5,4}
+local currentSoundIndex = 0
+local soundsEnabled = true
+
+local function playTeleportSound()
+	if not soundsEnabled then return end
+	currentSoundIndex = currentSoundIndex + 1
+	if currentSoundIndex > #soundPlayOrder then currentSoundIndex = 1 end
+	local soundIndex = soundPlayOrder[currentSoundIndex]
+	local soundId = teleportSoundIDs[soundIndex]
+	if not soundId then return end
+	local sound = Instance.new("Sound")
+	sound.SoundId = soundId
+	sound.Volume = 0.7
+	sound.Parent = Workspace
+	sound.Ended:Connect(function() pcall(function() sound:Destroy() end) end)
+	pcall(function() sound:Play() end)
+	return sound
+end
+
+local function isPositionClear(fromPos, toPos, ignoreList)
+	local dir = toPos - fromPos
+	local dist = dir.Magnitude
+	if dist <= 0.01 then return true end
+	local params = RaycastParams.new()
+	params.FilterDescendantsInstances = ignoreList or {}
+	params.FilterType = Enum.RaycastFilterType.Blacklist
+	local result = Workspace:Raycast(fromPos, dir.Unit * dist, params)
+	if result then
+		return false
+	end
+	local downParams = RaycastParams.new()
+	downParams.FilterDescendantsInstances = ignoreList or {}
+	downParams.FilterType = Enum.RaycastFilterType.Blacklist
+	local downOrigin = toPos + Vector3.new(0, 5, 0)
+	local downResult = Workspace:Raycast(downOrigin, Vector3.new(0, -50, 0), downParams)
+	if not downResult then
+		return false
+	end
+	local hit = downResult.Instance
+	if not hit or not hit.CanCollide then
+		return false
+	end
+	return true
+end
+
+local function findSafeTeleport(myPos, intrPos, baseOffset, ignoreList)
+	local dir = myPos - intrPos
+	dir = Vector3.new(dir.X, 0, dir.Z)
+	if dir.Magnitude < 0.001 then
+		dir = Vector3.new(1,0,0)
+	else
+		dir = dir.Unit
+	end
+	local left = Vector3.new(-dir.Z, 0, dir.X)
+	local right = Vector3.new(dir.Z, 0, -dir.X)
+	local candidates = {}
+	table.insert(candidates, myPos + left * baseOffset)
+	table.insert(candidates, myPos + right * baseOffset)
+	local maxAngleAttempts = 8
+	local angleStep = math.pi/16
+	for i = 1, maxAngleAttempts do
+		local ang = angleStep * i
+		local rotLeft = CFrame.fromOrientation(0, ang, 0)
+		local rotRight = CFrame.fromOrientation(0, -ang, 0)
+		local ldir = (rotLeft * CFrame.new(left)).Position.Unit
+		local rdir = (rotRight * CFrame.new(right)).Position.Unit
+		table.insert(candidates, myPos + ldir * baseOffset)
+		table.insert(candidates, myPos + rdir * baseOffset)
+	end
+	for _, cand in ipairs(candidates) do
+		local fromPos = myPos + Vector3.new(0, 2, 0)
+		local toPos = Vector3.new(cand.X, myPos.Y, cand.Z) + Vector3.new(0, 2, 0)
+		if isPositionClear(fromPos, toPos, ignoreList) then
+			return toPos
+		end
+	end
+	return nil
+end
+
+local function clearRing()
+	if updateConn then
+		updateConn:Disconnect()
+		updateConn = nil
+	end
+	if ringModel and ringModel.Parent then
+		ringModel:Destroy()
+		ringModel = nil
+	end
+	segmentParts = {}
+	for pl, hl in pairs(highlightMap) do
+		if hl and hl.Parent then hl:Destroy() end
+	end
+	highlightMap = {}
+	isActive = false
+end
+
+local function createRing(radius)
+	clearRing()
+	if not radius or radius <= 0 then return end
+	ringRadius = radius
+	local char = LocalPlayer.Character
+	if not char or not char.PrimaryPart then return end
+	local root = char.PrimaryPart
+	ringModel = Instance.new("Model")
+	ringModel.Name = "UltraInstinctRing"
+	ringModel.Parent = Workspace
+	for i = 1, segments do
+		local angle = (i-1) * (2 * math.pi / segments)
+		local arcLen = (2 * math.pi * radius) / segments
+		local seg = Instance.new("Part")
+		seg.Name = "Segment"
+		seg.Anchored = true
+		seg.CanCollide = false
+		seg.CastShadow = false
+		seg.Size = Vector3.new(segmentThickness, segmentHeight, math.max(0.05, arcLen + 0.02))
+		seg.Material = Enum.Material.Neon
+		seg.Color = Color3.fromRGB(220,30,30)
+		seg.Transparency = 1
+		seg.Parent = ringModel
+		local pos = Vector3.new(math.cos(angle) * radius, 0.12, math.sin(angle) * radius)
+		seg.CFrame = CFrame.new(root.Position + pos) * CFrame.Angles(0, -angle, 0)
+		local tInfo = TweenInfo.new(0.22, Enum.EasingStyle.Sine, Enum.EasingDirection.Out)
+		local tw = TweenService:Create(seg, tInfo, {Transparency = 0})
+		task.delay((i/segments) * 0.10, function() if seg and seg.Parent then tw:Play() end end)
+		table.insert(segmentParts, seg)
+	end
+	updateConn = RunService.RenderStepped:Connect(function()
+		if not LocalPlayer.Character or not LocalPlayer.Character.PrimaryPart then
+			clearRing()
+			return
+		end
+		local centerPos = LocalPlayer.Character.PrimaryPart.Position
+		for i, seg in ipairs(segmentParts) do
+			if seg and seg.Parent then
+				local angle = (i-1) * (2 * math.pi / #segmentParts)
+				local x = math.cos(angle) * ringRadius
+				local z = math.sin(angle) * ringRadius
+				seg.CFrame = CFrame.new(centerPos + Vector3.new(x, 0.12, z)) * CFrame.Angles(0, -angle, 0)
+			end
+		end
+		for _, pl in pairs(Players:GetPlayers()) do
+			if pl ~= LocalPlayer then
+				local ch = pl.Character
+				if ch and ch.PrimaryPart and ch:FindFirstChildWhichIsA("Humanoid") then
+					local dist = (ch.PrimaryPart.Position - centerPos).Magnitude
+					local inRange = dist <= ringRadius + 0.001
+					local hl = highlightMap[pl]
+					if inRange then
+						if not hl then
+							local newHl = Instance.new("Highlight")
+							newHl.Adornee = ch
+							newHl.FillColor = Color3.fromRGB(255,230,128)
+							newHl.FillTransparency = 0.6
+							newHl.OutlineColor = Color3.fromRGB(255,200,0)
+							newHl.OutlineTransparency = 0
+							newHl.Parent = PlayerGui
+							highlightMap[pl] = newHl
+						end
+						local now = tick()
+						if now - _lastTeleportTime >= teleportCooldown and (not playerLastTeleported[pl] or now - playerLastTeleported[pl] >= perPlayerCooldown) then
+							local intrPos = ch.PrimaryPart.Position
+							local myPos = centerPos
+							local baseOffset = ringRadius + avoidOffsetExtra
+							local ignoreList = {LocalPlayer.Character, ringModel}
+							local safe = findSafeTeleport(myPos, intrPos, baseOffset, ignoreList)
+							if safe then
+								local character = LocalPlayer.Character
+								local primary = character and character.PrimaryPart
+								if primary then
+									local newCFrame = CFrame.new(safe + Vector3.new(0, 0.5, 0))
+									pcall(function() primary.CFrame = newCFrame end)
+									playTeleportSound()
+									_lastTeleportTime = now
+									playerLastTeleported[pl] = now
+								end
+							end
+						end
+					else
+						if hl then
+							hl:Destroy()
+							highlightMap[pl] = nil
+						end
+					end
+				else
+					if highlightMap[pl] then
+						highlightMap[pl]:Destroy()
+						highlightMap[pl] = nil
+					end
+				end
+			end
+		end
+	end)
+end
+
+local originalColor = startBtn.BackgroundColor3
+local function animateButtonToStop()
+	startBtn.Text = "Stop"
+	TweenService:Create(startBtn, TweenInfo.new(0.22, Enum.EasingStyle.Quad), {BackgroundColor3 = Color3.fromRGB(40,120,220)}):Play()
+end
+local function animateButtonToStart()
+	startBtn.Text = "Start"
+	TweenService:Create(startBtn, TweenInfo.new(0.22, Enum.EasingStyle.Quad), {BackgroundColor3 = originalColor}):Play()
+end
+
+local function buttonPressAnim(btn)
+	local orig = btn.Size
+	local shrink = TweenService:Create(btn, TweenInfo.new(0.06, Enum.EasingStyle.Quad), {Size = UDim2.new(orig.X.Scale*0.96, orig.X.Offset*0.96, orig.Y.Scale*0.96, orig.Y.Offset*0.96)})
+	local restore = TweenService:Create(btn, TweenInfo.new(0.12, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Size = orig})
+	shrink:Play(); shrink.Completed:Wait(); restore:Play()
+end
+
+startBtn.MouseButton1Click:Connect(function()
+	buttonPressAnim(startBtn)
+	if not isActive then
+		local text = rangeBox.Text
+		local num = tonumber(text)
+		if not num or num <= 0 then
+			rangeBox.Text = ""
+			rangeBox.PlaceholderText = "Enter a positive number"
+			return
+		end
+		local clamped = math.clamp(num, 1, 2000)
+		lastRadius = clamped
+		createRing(clamped)
+		animateButtonToStop()
+		isActive = true
+	else
+		clearRing()
+		animateButtonToStart()
+		isActive = false
+		lastRadius = nil
+	end
+end)
+
+soundToggleBtn.MouseButton1Click:Connect(function()
+	soundsEnabled = not soundsEnabled
+	if soundsEnabled then
+		soundToggleBtn.Text = "Sounds: On"
+		TweenService:Create(soundToggleBtn, TweenInfo.new(0.18), {BackgroundColor3 = Color3.fromRGB(40,160,60)}):Play()
+	else
+		soundToggleBtn.Text = "Sounds: Off"
+		TweenService:Create(soundToggleBtn, TweenInfo.new(0.18), {BackgroundColor3 = Color3.fromRGB(100,100,100)}):Play()
+	end
+end)
+
+closeBtn.MouseButton1Click:Connect(function()
+	clearRing()
+	screenGui:Destroy()
+end)
+
+minimizeBtn.MouseButton1Click:Connect(function()
+	if frame.Size.Y.Offset > 40 then
+		local collapsedSize = UDim2.new(frame.Size.X.Scale, frame.Size.X.Offset, 0, 40)
+		TweenService:Create(frame, TweenInfo.new(0.18, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = collapsedSize}):Play()
+		rangeBox.Visible = false
+		startBtn.Visible = false
+		soundToggleBtn.Visible = false
+	else
+		local expandedSize = UDim2.new(0,420,0,136)
+		TweenService:Create(frame, TweenInfo.new(0.18, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = expandedSize}):Play()
+		task.delay(0.14, function()
+			rangeBox.Visible = true
+			startBtn.Visible = true
+			soundToggleBtn.Visible = true
+		end)
+	end
+end)
+
+startBtn.MouseButton2Click:Connect(function()
+	clearRing()
+	animateButtonToStart()
+	isActive = false
+	lastRadius = nil
+end)
+
+LocalPlayer.CharacterAdded:Connect(function()
+	task.wait(0.12)
+	if lastRadius and lastRadius > 0 then
+		createRing(lastRadius)
+		animateButtonToStop()
+		isActive = true
+	end
+end)
+
+LocalPlayer.AncestryChanged:Connect(function()
+	if not LocalPlayer:IsDescendantOf(game) then
+		clearRing()
+	end
+end)
+
+Players.PlayerRemoving:Connect(function(pl)
+	if highlightMap[pl] then
+		highlightMap[pl]:Destroy()
+		highlightMap[pl] = nil
+	end
+	playerLastTeleported[pl] = nil
+end)
