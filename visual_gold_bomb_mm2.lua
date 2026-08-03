@@ -1,5 +1,3 @@
--- ts file was generated at discord.gg/25ms
-
 local Player = game.Players.LocalPlayer
 local Mouse = Player:GetMouse()
 local PlayerGui = Player:WaitForChild('PlayerGui')
